@@ -5,12 +5,12 @@ import os
 import re
 
 
-def run_command(command, retries=3):
+def run_command(command, retries, cwd=os.path.join(os.getcwd())):
     attempts = 0
     while attempts < retries:
         try:
             # 执行命令并等待命令执行完成
-            completed_process = subprocess.run(command, shell=True, check=True, cwd=os.path.join(os.getcwd()), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            completed_process = subprocess.run(command, shell=True, check=True, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
             # 输出命令执行结果
             print(f"Command '{command}' executed successfully.")
@@ -111,24 +111,21 @@ def copy_images(img_src_folder, img_dest_folder):
         shutil.copy2(src_path, dest_path)
 
 
-def execute():
-    run_command("git clone git@gitee.com:lzhdebuggg/stackedit-app-data.git")
-    folder_path = os.path.join(os.getcwd(), "stackedit-app-data\\imgs")
-    image_paths = find_images_in_folder(folder_path)
-    for path in image_paths:
-        print(path)
-    md_src_folder = os.path.join(os.getcwd(), "stackedit-app-data")
-    md_dest_folder = os.path.join(os.getcwd(), "blog3\\source\\_posts")
-    img_src_folder = os.path.join(os.getcwd(), "stackedit-app-data\\imgs")
-    img_dest_folder = os.path.join(os.getcwd(), "blogImages\\imagePost")
+def execute(md_src_folder, md_dest_folder, img_src_folder, img_dest_folder, blog_path):
+    run_command("git clone git@gitee.com:lzhdebuggg/stackedit-app-data.git", 1, blog_path)
     copy_and_modify_md_files(md_src_folder, md_dest_folder)
     copy_images(img_src_folder, img_dest_folder)
 
 
-def clean_up():
-    run_command("rd /s/q stackedit-app-data")
+def clean_up(blog_path):
+    run_command("rd /s/q stackedit-app-data", 1, blog_path)
 
 
 if __name__ == '__main__':
-    execute()
-    clean_up()
+    md_src_folder = os.path.join(os.getcwd(), "stackedit-app-data")
+    md_dest_folder = os.path.join(os.getcwd(), "blog3\\source\\_posts")
+    img_src_folder = os.path.join(os.getcwd(), "stackedit-app-data\\imgs")
+    img_dest_folder = os.path.join(os.getcwd(), "blogImages\\imagePost")
+    blog_path = os.path.join(os.getcwd(), "blog3")
+    execute(md_src_folder, md_dest_folder, img_src_folder, img_dest_folder, blog_path)
+    clean_up(blog_path)

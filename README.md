@@ -42,4 +42,16 @@
 5. **清理操作**: 最后，脚本会删除克隆下来的StackEdit仓库，以减少磁盘占用。
 
 这个脚本可以作为一个自动化工具，用于在内容更新后快速迁移和更新StackEdit中的内容到Hexo博客。
-# Hexo-blog-automation-with-stackedit
+
+## Hexo Blog Header Image Automation Script
+
+这个Python脚本用于自动化处理Hexo博客中Markdown（`.md`）文件的头信息。特别是，它会自动添加 `headimg`字段，该字段用于指定文章的头图。
+
+### 主要功能
+
+1. **扫描Markdown文件**: 脚本会遍历Hexo博客的 `_posts`目录，找出所有 `.md`文件。
+2. **检查头信息**: 对于每个 `.md`文件，脚本会检查是否已经包含 `headimg`字段。
+3. **查找首个图片链接**: 如果 `headimg`字段不存在，脚本会搜索文章中的第一个图片链接。
+4. **添加或更新头信息**: 脚本会自动在 `.md`文件的头信息中添加或更新 `headimg`字段，并设置其值为找到的第一个图片链接。
+
+这个脚本可以作为一个自动化工具，用于在内容更新后快速处理和更新Hexo博客中的Markdown文件的头信息。

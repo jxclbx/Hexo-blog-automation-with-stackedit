@@ -2,7 +2,7 @@ import subprocess
 import os
 
 
-def _run_command(command, retries=3, _cwd=os.path.join(os.getcwd(), "blog3")):
+def _run_command(command, retries, _cwd):
     attempts = 0
     while attempts < retries:
         try:
@@ -22,10 +22,10 @@ def _run_command(command, retries=3, _cwd=os.path.join(os.getcwd(), "blog3")):
     print(f"Command '{command}' failed after {retries} attempts. Stopping.")
 
 
-def run_command():
-    _run_command("hexo g")
-    _run_command("hexo d")
+def run_command(cwd):
+    _run_command("hexo g", 3, cwd)
+    _run_command("hexo d", 3, cwd)
 
 
 if __name__ == '__main__':
-    run_command()
+    run_command(os.path.join(os.getcwd(), "blog3"))
